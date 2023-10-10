@@ -1,7 +1,12 @@
 # Section 4: Workflows & Events - Deep Dive
 
 name: Events Demo 1
-on: ...
+on:
+  pull_request:
+    types:
+      - opened
+      # - edited
+  workflow_dispatch: # still need : even though workflow_dispatch is empty
 jobs:
   deploy:
     runs-on: ubuntu-latest
