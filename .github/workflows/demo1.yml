@@ -26,9 +26,10 @@ on:
                      # dev-new, dev-this-is-new
       - 'feature/**' # pattern match including more slashes
                      # feature/new, feature/new/button
+    # paths and paths-ignore are mutually exclusive
     # Trigger this workflow on specific paths
-    paths:
-      - '*'
+    # paths:
+    #   - '*'
     # Ignore trigger from specific paths
     paths-ignore:
       - 'docs/**'
