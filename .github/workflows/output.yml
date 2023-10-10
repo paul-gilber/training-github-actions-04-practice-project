@@ -1,6 +1,7 @@
 name: Output Event Details
 
-on: issues
+# on: issues
+on: workflow_dispatch
 
 jobs:
   output:
