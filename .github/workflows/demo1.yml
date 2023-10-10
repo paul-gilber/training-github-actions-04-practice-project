@@ -3,10 +3,36 @@
 name: Events Demo 1
 on:
   pull_request:
+    # when not specified default trigger types are:
+    # - opened
+    # - synchronize
+    # - reopened
     types:
       - opened
       # - edited
+    # Trigger this workflow on specific branches
+    branches:
+      - main         # exact match
+      - 'dev-*'      # pattern match any character other than slashes
+                     # dev-new, dev-this-is-new
+      - 'feature/**' # pattern match including more slashes
+                     # feature/new, feature/new/button
   workflow_dispatch: # still need : even though workflow_dispatch is empty
+  push:
+    # Trigger this workflow on specific branches
+    branches:
+      - main         # exact match
+      - 'dev-*'      # pattern match any character other than slashes
+                     # dev-new, dev-this-is-new
+      - 'feature/**' # pattern match including more slashes
+                     # feature/new, feature/new/button
+    # Trigger this workflow on specific paths
+    paths:
+      - '*'
+    # Ignore trigger from specific paths
+    paths-ignore:
+      - 'docs/**'
+      - '.github/workflows/*'
 jobs:
   deploy:
     runs-on: ubuntu-latest
