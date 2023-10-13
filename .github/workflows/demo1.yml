@@ -1,5 +1,27 @@
 # Section 4: Workflows & Events - Deep Dive
 
+# Cancelling
+## By default, Workflows get cancelled if Jobs fail
+## By default, a Job fails if at least one Step fails
+## Workflows can be cancelled manually
+
+# Skipping
+## By default, all matching events start a workflow
+## Exceptions for "push" and "pull_request" can be specified
+## Skip with proper commit message
+## Example: only comments were added which does not change the application logic
+## Commit Message: "added comments [skip <ci|action|>]"
+
+# Workflows that would otherwise be triggered using on: push or on: pull_request won't be triggered if you add any of the following strings to the commit message in a push, or the HEAD commit of a pull request:
+#   [skip ci]
+#   [ci skip]
+#   [no ci]
+#   [skip actions]
+#   [actions skip]
+# Alternatively, you can end the commit message with two empty lines followed by either: 
+#   skip-checks:true
+#   skip-checks: true
+
 name: Events Demo 1
 on:
   pull_request:
@@ -7,6 +29,10 @@ on:
     # - opened
     # - synchronize
     # - reopened
+    # by default, pr based on forks do NOT trigger a workflow (requires approval from owner), for the following reasons:
+    # - everyone can fork & open pull requests
+    # - malicious workflow runs & excess cost could be caused
+    # first-time contributors (fork) must be approved manually
     types:
       - opened
       # - edited
@@ -15,8 +41,8 @@ on:
       - main         # exact match
       - 'dev-*'      # pattern match any character other than slashes
                      # dev-new, dev-this-is-new
-      - 'feature/**' # pattern match including more slashes
-                     # feature/new, feature/new/button
+      - 'feature/**' # pattern match incuding more slashes
+                     # feature/new, feature/new/buttonl
   workflow_dispatch: # still need : even though workflow_dispatch is empty
   push:
     # Trigger this workflow on specific branches
