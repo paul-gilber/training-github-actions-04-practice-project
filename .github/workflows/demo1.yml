@@ -22,44 +22,46 @@
 #   skip-checks:true
 #   skip-checks: true
 
+# Available Events
+
 name: Events Demo 1
 on:
-  pull_request:
-    # when not specified default trigger types are:
-    # - opened
-    # - synchronize
-    # - reopened
-    # by default, pr based on forks do NOT trigger a workflow (requires approval from owner), for the following reasons:
-    # - everyone can fork & open pull requests
-    # - malicious workflow runs & excess cost could be caused
-    # first-time contributors (fork) must be approved manually
-    types:
-      - opened
-      # - edited
-    # Trigger this workflow on specific branches
-    branches:
-      - main         # exact match
-      - 'dev-*'      # pattern match any character other than slashes
-                     # dev-new, dev-this-is-new
-      - 'feature/**' # pattern match incuding more slashes
-                     # feature/new, feature/new/buttonl
+  # pull_request:
+  #   # when not specified default trigger types are:
+  #   # - opened
+  #   # - synchronize
+  #   # - reopened
+  #   # by default, pr based on forks do NOT trigger a workflow (requires approval from owner), for the following reasons:
+  #   # - everyone can fork & open pull requests
+  #   # - malicious workflow runs & excess cost could be caused
+  #   # first-time contributors (fork) must be approved manually
+  #   types:
+  #     - opened
+  #     # - edited
+  #   # Trigger this workflow on specific branches
+  #   branches:
+  #     - main         # exact match
+  #     - 'dev-*'      # pattern match any character other than slashes
+  #                    # dev-new, dev-this-is-new
+  #     - 'feature/**' # pattern match incuding more slashes
+  #                    # feature/new, feature/new/button
   workflow_dispatch: # still need : even though workflow_dispatch is empty
-  push:
-    # Trigger this workflow on specific branches
-    branches:
-      - main         # exact match
-      - 'dev-*'      # pattern match any character other than slashes
-                     # dev-new, dev-this-is-new
-      - 'feature/**' # pattern match including more slashes
-                     # feature/new, feature/new/button
-    # paths and paths-ignore are mutually exclusive
-    # Trigger this workflow on specific paths
-    # paths:
-    #   - '*'
-    # Ignore trigger from specific paths
-    paths-ignore:
-      - 'docs/**'
-      - '.github/workflows/*'
+  # push:
+  #   # Trigger this workflow on specific branches
+  #   branches:
+  #     - main         # exact match
+  #     - 'dev-*'      # pattern match any character other than slashes
+  #                    # dev-new, dev-this-is-new
+  #     - 'feature/**' # pattern match including more slashes
+  #                    # feature/new, feature/new/button
+  #   # paths and paths-ignore are mutually exclusive
+  #   # Trigger this workflow on specific paths
+  #   # paths:
+  #   #   - '*'
+  #   # Ignore trigger from specific paths
+  #   paths-ignore:
+  #     - 'docs/**'
+  #     - '.github/workflows/*'
 jobs:
   deploy:
     runs-on: ubuntu-latest
