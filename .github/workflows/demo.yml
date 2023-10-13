@@ -51,8 +51,7 @@ jobs:
           name: dist-files
           # Supports multiple paths and patterns
           path: |
-            dist/
-            package.json
+            dist
   deploy:
     needs: build
     runs-on: ubuntu-latest
