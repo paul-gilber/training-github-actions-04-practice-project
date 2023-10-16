@@ -8,7 +8,7 @@
 
 name: Demo
 
-on: 
+on:
   push:
     branches:
       - main
@@ -33,6 +33,11 @@ jobs:
   build:
     needs: test
     runs-on: ubuntu-latest
+    # https://docs.github.com/en/actions/using-jobs/defining-outputs-for-jobs
+    outputs:
+      # https://docs.github.com/en/actions/learn-github-actions/contexts#steps-context
+      # steps.<step id>.outputs.<step output key>
+      script-file: ${{ steps.publish.outputs.script-file }}
     steps:
       - name: Clone
         uses: actions/checkout@v4
@@ -44,6 +49,11 @@ jobs:
         run: npm ci
       - name: Build
         run: npm run build  # stores output to "dist" directory
+      - name: Publish JS filename
+        # id field is required for defining output
+        id: publish
+        # Store to special file $GITHUB_OUTPUT managed by github
+        run: find dist/assets/*.js -type f -execdir echo 'script-file={}' >> $GITHUB_OUTPUT ';'
       # Upload artifacts
       - name: Upload artifacts
         uses: actions/upload-artifact@v3
@@ -61,8 +71,12 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: dist-files
-          # path: 
+          # by default, files will be placed on current directory (files only excluding top level directory)
+          path: dist
       - name: Output contents
         run: ls
+      - name: Output filename
+        # https://docs.github.com/en/actions/learn-github-actions/contexts#needs-context
+        run: echo "${{ needs.build.outputs.script-file }}"
       - name: Deploy
         run: echo "Deploying ..."
