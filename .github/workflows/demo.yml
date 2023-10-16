@@ -24,6 +24,21 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: 18
+      # https://github.com/marketplace/actions/cache
+      # since runners change per execution, cached dependencies will not be available by default
+      # this step must be placed before all "Install Dependencies" step
+      - name: Cache Dependencies
+        uses: actions/cache@v3
+        with:
+          # ~/.npm - Internal NPM dependency cache
+          # this step will also automatically look up to ~/.npm directory after the job finished and put that directory into the cache if it doesn't exist
+          path: |
+            ~/.npm
+          # key for retrieving the cache
+          # hashFiles: https://docs.github.com/en/actions/learn-github-actions/expressions#hashfiles
+          # builds a hash of all `package-lock.json` files from all directories
+          # dependency key must be dynamic to indicate removal of outdated cache
+          key: dependency-node-modules-${{ hashFiles('**/package-lock.json') }}
       - name: Install Dependencies
         run: npm ci
       - name: Lint
@@ -45,8 +60,23 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: 18
+      # https://github.com/marketplace/actions/cache
+      # since runners change per execution, cached dependencies will not be available by default
+      # this step must be placed before all "Install Dependencies" step
+      - name: Cache Dependencies
+        uses: actions/cache@v3
+        with:
+          # ~/.npm - Internal NPM dependency cache
+          # this step will also automatically look up to ~/.npm directory after the job finished and put that directory into the cache if it doesn't exist
+          path: |
+            ~/.npm
+          # key for retrieving the cache
+          # hashFiles: https://docs.github.com/en/actions/learn-github-actions/expressions#hashfiles
+          # builds a hash of all `package-lock.json` files from all directories
+          # dependency key must be dynamic to indicate removal of outdated cache
+          key: dependency-node-modules-${{ hashFiles('**/package-lock.json') }}
       - name: Install Dependencies
-        run: npm ci
+        run: npm ci  # will automatically use ~/.npm directory. will be used when existing, otherwise downloaded
       - name: Build
         run: npm run build  # stores output to "dist" directory
       - name: Publish JS filename
